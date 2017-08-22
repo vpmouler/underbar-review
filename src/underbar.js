@@ -67,7 +67,17 @@
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target) {
+    
+    var targetIndex = -1;
 
+    _.each(array, function(element, index) {
+      if (targetIndex === -1 && element === target) {
+        targetIndex = index;
+        
+      }
+    });
+
+    return targetIndex;
 
 
 
@@ -92,6 +102,23 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+
+    //declare output array
+    var outputArr = [];
+
+    //iterate through each element
+    _.each(collection, function(element) {
+      if (test(element)) {
+        outputArr.push(element);
+      }
+    });
+      //if element passes test, push to output array
+
+
+    //return output array
+    return outputArr;
+
+
   };
 
   // Return all elements of an array that don't pass a truth test.
