@@ -112,7 +112,7 @@
         outputArr.push(element);
       }
     });
-      //if element passes test, push to output array
+    //if element passes test, push to output array
 
 
     //return output array
@@ -125,10 +125,21 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var failedArr = [];
+
+    _.filter(collection, function(element) {
+      if (!test(element)) {
+        failedArr.push(element);
+      }
+    });
+
+    return failedArr;
+
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    
   };
 
 

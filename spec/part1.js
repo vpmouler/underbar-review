@@ -262,7 +262,7 @@
         var evens = _.filter(numbers, isOdd);
 
         expect(evens).to.not.equal(numbers);
-      });
+      }); 
     });
 
     describe('reject', function() {
@@ -286,7 +286,7 @@
         var numbers = [1, 2, 3, 4, 5, 6];
         var evens = _.reject(numbers, isOdd);
 
-        expect(evens).to.not.equal(numbers);
+        expect(evens).to.not.equal(numbers); //to.not.eql
       });
     });
 
