@@ -247,6 +247,18 @@
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
+    if ( typeof collection === 'object' ) {
+      var valueArray = [];
+      for ( var key in collection ) {
+        valueArray.push(collection[key]);
+      }
+      return _.reduce(valueArray, function(wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
+        return item === target;
+      }, false);
+    }
     return _.reduce(collection, function(wasFound, item) {
       if (wasFound) {
         return true;
@@ -331,11 +343,27 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var args = [...arguments].slice(1);
+    _.each(args, function(ele) {
+      for ( var key in ele ) {
+        obj[key] = ele[key];
+      }
+    })
+    return obj;
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for ( var i = 0; i < arguments.length; i++ ) {
+      for ( var key in arguments[i] ) {
+        if (!(key in obj)) {
+            obj[key] = arguments[i][key];
+          }
+        }
+      }
+    return obj;
   };
 
 
@@ -406,6 +434,8 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = [...arguments];
+    return setTimeout (function() {return func.apply(this, args.slice(2))}, wait);
   };
 
 
@@ -420,6 +450,21 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var copyArray = array.slice(0);
+    var emptyArray = [];
+    var random = function() {
+      return Math.round(Math.random()*((array.length-1)-0) + 0)
+    };
+    // make object check keys or find if array index not undefined
+    var index = 0;
+    while ( index < array.length ) {
+      var randomIndex = random();
+      if ( emptyArray[randomIndex] == undefined ) {
+        emptyArray[randomIndex] = array[index];
+        index++;
+      } 
+    }
+    return emptyArray;
   };
 
 
