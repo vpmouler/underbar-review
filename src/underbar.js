@@ -258,13 +258,57 @@
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+    var allPassed = _.reduce(collection, function(accumulator, value) {
+      //if(accumulator && value )
+      if (accumulator === true) {
+        //test if values are true if no iterator is provided
+        if (iterator === undefined) {
+          return value;
+        } else {
+          //passes for collection of all truthy values
+          if (iterator(value)) {
+            return true;
+          }
+        }
+      } else {
+        return false;
+      }
+    }, true);    
+    if (allPassed) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    //if no iterator is provided, provide default
+    if (iterator === undefined) {
+      iterator = function(value) {
+        if (value) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
+    //if every element doesn't pass the truth test, then some don't
+    var allFailed = _.every(collection, function(value) {
+      if (iterator(value)) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    if (allFailed) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
 
@@ -335,6 +379,24 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    
+    var memorizedArgsObj = {};
+    //if func already called with those arguments, return stored value (object? where each prop name is argument: value)
+    //return function (closure scope) that returns the stored value
+
+    return function() {
+      //stringify arguments (convert arguments object to array, then join into string separated by ' ')
+      var argsArray = Array.prototype.slice.call(arguments);
+      var argsString = argsArray.join(' ');
+
+      //if property doesn't exist
+      if(!memorizedArgsObj.hasOwnProperty(argsString)) {
+        //if arguments is an array, use apply
+        //memorizedArgsObj[argsString] = func.call(this, arguments);
+        memorizedArgsObj[argsString] = func.apply(this, arguments);
+      }
+      return memorizedArgsObj[argsString];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
