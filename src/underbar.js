@@ -161,7 +161,7 @@
       if (_.indexOf(dupeFreeArr, element) === -1 ) {
         dupeFreeArr.push(element);
       }
-    })
+    });
     return dupeFreeArr;
   };
 
@@ -174,7 +174,7 @@
     var mappedArray = [];
     _.each(collection, function(element) {
       mappedArray.push(iterator(element));
-    })
+    });
     return mappedArray;
   };
 
@@ -224,10 +224,10 @@
       }
       return accumulator;
     }
-     for ( var i = 0; i < collection.length; i++ ) {
-     accumulator = iterator(accumulator, collection[i]);
-     }
-     return accumulator;
+    for ( var i = 0; i < collection.length; i++ ) {
+      accumulator = iterator(accumulator, collection[i]);
+    }
+    return accumulator;
 
   //   if ( accumulator === undefined ) {
   //     accumulator = collection[0];
